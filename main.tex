@@ -1,0 +1,147 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+% \IEEEpubid{\makebox[\textwidth]{\textbf{978-1-6654-4146-9/21/\$31.00~\copyright2021 IEEE} \hfill}}
+
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{svg}
+\usepackage{textcomp}
+\usepackage{xcolor}
+
+% folder gambar
+\graphicspath{{./figures/}}
+
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+% change index term to keywords
+\renewcommand\IEEEkeywordsname{Kata Kunci}
+
+\begin{document}
+
+\title{Sistem Pelacakan Kendaraan Bermotor untuk Penanggulangan Pencurian Kendaraan Bermotor}
+
+\author{
+\IEEEauthorblockN{Reihan Augeetiansyah\IEEEauthorrefmark{1}, Elang Aditya\IEEEauthorrefmark{2}, Andaru Purwarangga\IEEEauthorrefmark{3},\\ Muhammad Ogin Hasanuddin\IEEEauthorrefmark{4}, Beni Rio Hermanto\IEEEauthorrefmark{5}}\IEEEauthorblockA{\textit{School of Electrical Engineering and Informatics} \\
+\textit{Institut Teknologi Bandung}\\
+Bandung, Indonesia \\
+Email: \{\IEEEauthorrefmark{1}13217013, \IEEEauthorrefmark{2}13217027, \IEEEauthorrefmark{3}13217082\}@std.stei.itb.ac.id, \IEEEauthorrefmark{4}moginh@itb.ac.id, \IEEEauthorrefmark{5}benirio@gmail.com}
+}
+
+
+\maketitle
+% \IEEEpubidadjcol
+
+% change abstract to abstrak
+\renewcommand{\abstractname}{Abstrak}
+% change References to Referensi
+\renewcommand{\refname}{Referensi}
+
+\begin{abstract}
+Currently, GPS and GSM have been widely used for tracking systems in case of vehicle theft, but this will be in vain if not done immediately. It is almost impossible to find a vehicle that is far from the time and place of the incident. For this reason, a better detection mechanism is needed so that vehicle searches can be carried out as early as possible so that they are not tracked by vehicles because they are very far from the location and time of the incident. In this project, we propose a Vehicle Tracking System to find vehicle coordinates. We implement vehicle movement detection and vehicle engine monitoring, which indicates an act of theft. Data and telemetry are sent over the Internet via cellular networks, while location detection relies on a GPS module with an external Antenna. Data is sent via the MQTT Protocol via Google Cloud IoT Core, which will be sent to the Firestore Database available from Google Firebase. The data can be monitored by the vehicle owner via a Progressive Web App-based User Interface, also built on top of Firebase, which will be able to control device mode, display the real-time location of the vehicle via Google Maps, and a collection of historical data on vehicle movements. The system will alert the user via notification when an act of theft is detected.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Internet of Things, Vehicle Tracking System, Theft Detection, Google Cloud IoT Core, Firebase.
+\end{IEEEkeywords}
+
+\section{Pendahuluan}
+Internet-of-Things (IoT) has allowed humans to create solutions to problems which were not available. The ability for devices to connect and "talk" to each other and share information has allowed new levels of interconnectivity between all of us~\cite{iotmounika}. IoT devices themselves have come a long way in terms of the development and accessibility, with new devices with different features becoming available for the general public to access and experiment with. One of the key uses of IoT is to design a vehicle tracking system to solve the issue of not knowing where the location of someone's vehicle is, and detecting a possible act of theft to the vehicle~\cite{lu2014wireless}. 
+
+The main technology used in this system to detect the location of the vehicle is GPS or Global Positioning System~\cite{iotmounika,6132526,6803187,article1}. GPS is a system built upon satellites to pinpoint the location of an object with a GPS receiver in the form of Longitude and Latitude. These data can be collected via a device that is planted in the vehicle, which hosts a GPS receiver and used accordingly to give the user information regarding the location of the device. Representation of the data can be formulated to an interactive visual interface instead of numerical longitude and latitude values through available interactive mapping resources such as Google Maps and OpenStreetMap. Transmission of data from the device can use different technologies, such as mobile telecommunications interface (GPRS, 3G, LTE), LoRa, NB-IoT. However, with mobile telecommunications network offering the biggest coverage of area, especially in the country of Indonesia, and factoring in costs of production of the proposed device, GPRS mobile telecommunications network is used in this project to send data from the device to the user's end.
+
+The ability to detect the location of the vehicle will also be paired with the ability of the device to detect a possible theft attempt. Detection is done through scanning for unwanted engine starts, and through detection of the change of the vehicle's location past a certain distance threshold. To avoid minimizing false positive results, the user will have to set the device to a certain configuration, therefore scanning and detection of those parameters will only be done when the device is set to this very configuration. Control of the device will be done via a web application, where do the user will be able to view the location of the device from an Interactive Map platform and follow real time updated gathered from the device.
+
+\begin{figure*}[ht!]
+    \centering
+    \def\svgwidth{\columnwidth}
+    \scalebox{1.8}{\input{figures/skematikdiagram1.pdf_tex}}
+    \caption{Architecture of the Proposed System}
+    \label{fig1}
+\end{figure*}
+
+\section{Pekerjaan Terkait}
+Due to high demand of such systems, there has been several previous attempts to design a vehicle Tracking system, all has involved the use of GPS, with GPS receivers being the component to use and integrate in the device. One previous attempt involved the system sending location data in the form of Short Message Service (SMS) to alert the user regarding real time location of the vehicle, as well as detection of theft. Detection of theft is done through an RFID sensor to detect an event of engine turning on. Data is then presented via Google Maps link that will redirect the user to an external Google Maps application to view the location. Control such as commands to the device are done manually through the SMS via specific text-based commands \cite{iotmounika}. Another attempt in designing a vehicle tracking system involves the design of Java-based system to allow users to interact and retrieve positional data from the device, while still using SMS-based messages to control the 
+configuration of the device in the event of a position information request. Location data is sent via TCP socket through GPRS network to be stored in a database \cite{6132526}. Another system was designed to be accessed with a mobile-based application running specifically on iOS hardware, where the location data is displayed via Google Maps, but without any capabilities to detect any attempt of theft, and is used solely for vehicle location tracking. The referenced system uses GPRS as a method of communication while GPS is used for location detection \cite{6803187}.
+Lastly, a system was designed using the basic architecture of a GPS receiver while integrating the use of a cut-off switch to be able to turn off the vehicle's power once it has detected an act of theft. The detection of the act of theft still needs confirmation from the user on whether it is a true-positive / false-positive detection, every time the vehicle engine turns on. Once the user has confirmed this act of theft, the cut-off switch will then turn the car off and the system will be able to deliver the location of said vehicle \cite{article1}. 
+
+\section{Arsitektur Sistem}
+The paper presents a system which is designed to locate the vehicle location using GPS and GPRS technology via hardware planted on the user's vehicle. The system will be based on Espressif ESP32 Controller to handle the operations of the devices, with integrated SIMCOM SIM800L GSM/GPRS Module to be able to communicate with the network to transmit information to the user. GPS capabilities will be handled by a separate GPS receiver to acquire latitude and longitude values. In order for the system to be able to power itself, while also detecting an act of car theft, the device will interface with the On-board diagnostics (OBD) port of the vehicle, where it will receive constant voltage to power the device, while also receiving data in the form of impulses which will be detected by the device to determine an engine start event. Besides that, the device will be able to detect if it is unplugged from the OBD Port, where an emergency power source in the form of rechargeable Lithium-Ion Batteries will be used to power the device for a certain period of time. 
+
+All the information gathered from this device will then be transmitted via Internet through GPRS network provided by support network providers. For data to be received to the end user, it will have to travel to different stages. The first 
+part of the transmission involves the data being sent to Google Pub/Sub Client, which is a part of Google IoT Core services. The device will communicate with Pub/Sub Client via MQTT, a lightweight communications protocol to enable low power data communications to minimize power consumption, especially in the situation where emergency power is used. 
+
+On the other side, the user will interact with a web application design as a Progressive Web App (PWA), able to be accessed in different devices with access to a web browser. 
+The decision to create a user interface based on PWA is that it enables implementation of features such as push notifications and native user experience for iOS and Android systems running on smartphones, while being more lightweight in terms of file size and processing power usage compared to traditional apps \cite{8456349}.
+
+To integrate the communication of both the device and the user, Google Cloud Functions will be used to create functions that will run whenever a certain event has occurred. These functions will save incoming data from device to Firebase Firestore, pass through commands to enable and disable both Realtime Tracking Mode and Theft Monitoring Mode to the device and pairing said device to a specific user account. Thus, it can be inferred that Cloud Functions will be the  backbone of the system in order for both the device and user to communicate and exchange data with each other. The proposed system can be seen in Figure~\ref{fig1}. 
+
+\subsection{Subsistem Device}
+Tracker Subsystem is the subsystem that will do data acquisition on location, theft detection and other data such as network status and GPS signal availability. The process of development for this subsystem is done using Mongoose OS platform. Mongoose OS is development framework focused on IoT aspect and allows for seamless and easier integration to cloud infrastructure such as Google Cloud, Amazon AWS and Azure IoT. It supports multiple devices such as ESP32 and ESP8266, where ESP32 will be used in this system.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.45\textwidth]{casing1}
+    \includegraphics[width=0.45\textwidth]{casing2}
+    \caption{Tracker Device Casing}
+    \label{fig2}
+\end{figure}
+
+\subsection{Subsistem Cloud}
+Data Processing Module consists of TTGO-TCall ESP32 Module. This Module has integrated SIM800L module that will act as mobile modem to connect to telecommunications mobile network. It also includes IP5306 System-on-Chip (SoC) to power up the board using battery, and controls battery charging process. This board allows for conventional communication between module via GPIO pins that are available, and providing power pins to modules such as GPS Module.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.45\textwidth]{gambaresp32}
+    \caption{TTGO T-Call ESP32 Board with integrated SIM800L Communications Module}
+    \label{fig3}
+\end{figure}
+
+\subsection{Antarmuka}
+The functionalities of coordinate data acquisition for real time tracking and historical data collection is fulfilled by u-Blox NEO-6M Module. NEO6M module is a GNSS receiver with capabilities of receiving from US GPS satellite network. Compared to newer variants from u-Blox, notably the M8 Series receivers, the NEO-6M lacks the ability to receive data from Galileo and GLONASS satellite networks. However, as with 
+the choice of SIM800L module for communication, the availability and price of the module are the key reasons on why NEO-6M is used. Communication between NEO-6M Module and ESP32 module are as follows:
+\begin{itemize}
+\item 'Tx' Pin on NEO-6M connects to pin 'GPIO14' of ESP32module.
+\item 'Rx' Pin on NEO-6M connects to pin 'GPIO12' of ESP32module.
+\end{itemize}
+
+\subsection{Google Maps API}
+Google Maps API will be used to visually display the coordinate data received from the Tracker Device. Google Maps is implemented using Maps JavaScript API that is available to be used using an API key generated on Google Cloud Console. Alongside the location data of tracker will also be the location of the user, who will use the geolocation data of the device used to access the user interface (i.e. mobile phone or desktop device). Maps API will be used to display both real time location and historical location.
+
+\section{Hasil dan Diskusi}
+
+isinya dari B500, hasil yang dimaksud adalah hasil pengujian, dikaitkan dengan spesifikasi
+
+This will then send a new configuration to the device, telling the device to turn on real time tracking, where it will provide an update at a rate of every 10 seconds, provided that GPS data is provided by the receiver.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.2\textwidth]{realtimeon}
+    \caption{Real Time Tracking Turned on in Dashboard}
+    \label{fig6}
+\end{figure}
+
+The tracker device will also send historical location data automatically without prompt, providing the user with extra precaution in the case that they forgot to enable theft detection mode. Historical data can be accessed in the History page of the application.
+
+device, while also displaying a message to remind the user of the situation when they access the Dashboard page. A notification will appear as shown in figure~\ref{fig7} if a theft is detected.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.15\textwidth]{notif1}
+    \includegraphics[width=0.25\textwidth]{notif2}
+    \caption{Notification and Displayed Message when Theft is Detected}
+    \label{fig7}
+\end{figure}
+
+\section{Kesimpulan}
+A system has been designed that has been able to incorporate GPS and GPRS technology to track location of passenger cars. The system is also able to detect an act of theft through 2 predefined scenarios, which are when engine is turned on and when the vehicle has moved 50 meters from its original position. The user is able to access all of the information given by the Tracker through a user interface designed as a Progressive Web App which enables features such as push notifications to be possible in a web-based application. Communication between Tracker and User Interface is fulfilled with Google Cloud Solutions, consisting of Google IoT Core, Cloud Functions, and Firebase Firestore. Implementation is possible in passenger cars with OBDII Port, where engine-turn on data and main power is acquired. Backup power is provided by a battery pack for situations where OBDII Port is unplugged, which will also be informed to the user via push notifications. 
+
+
+\section{saran Pengembangan}
+This system can be enhanced further by implementing the use of 4G LTE instead of GPRS once the components are available for a more economical price point. Any technology that can be used is to use Narrowband-IoT (NB-IoT) as a means of communications once the infrastructure is available to be used for general public in Indonesia. Implementing NB-IoT will allow for less power consumption and enable the device to be powered solely by external power source, like a battery pack, and enable more reliable mobile network connection. Another development would be offering this system to motorcycles, by changing the interfacing format to the vehicle from OBDII to other means.
+
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}
