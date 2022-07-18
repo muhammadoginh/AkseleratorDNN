@@ -13,38 +13,31 @@
 \graphicspath{{./figures/}}
 
 
-\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
-    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
-
 % change index term to keywords
-\renewcommand\IEEEkeywordsname{Kata Kunci}
+\renewcommand\IEEEkeywordsname{Keywords}
 
 \begin{document}
 
-\title{Sistem Pelacakan Kendaraan Bermotor untuk Penanggulangan Pencurian Kendaraan Bermotor}
+\title{Design and Implementation of ANN Accelerators}
 
 \author{
-\IEEEauthorblockN{Reihan Augeetiansyah\IEEEauthorrefmark{1}, Elang Aditya\IEEEauthorrefmark{2}, Andaru Purwarangga\IEEEauthorrefmark{3},\\ Muhammad Ogin Hasanuddin\IEEEauthorrefmark{4}, Beni Rio Hermanto\IEEEauthorrefmark{5}}\IEEEauthorblockA{\textit{School of Electrical Engineering and Informatics} \\
+\IEEEauthorblockN{Muhammad Ogin Hasanuddin\IEEEauthorrefmark{1}, Aziz Faozi\IEEEauthorrefmark{2}}\IEEEauthorblockA{\textit{School of Electrical Engineering and Informatics} \\
 \textit{Institut Teknologi Bandung}\\
 Bandung, Indonesia \\
-Email: \{\IEEEauthorrefmark{1}13217013, \IEEEauthorrefmark{2}13217027, \IEEEauthorrefmark{3}13217082\}@std.stei.itb.ac.id, \IEEEauthorrefmark{4}moginh@itb.ac.id, \IEEEauthorrefmark{5}benirio@gmail.com}
+Email: \IEEEauthorrefmark{1}moginh@itb.ac.id, \IEEEauthorrefmark{2}benirio@gmail.com}
 }
 
 
 \maketitle
 % \IEEEpubidadjcol
 
-% change abstract to abstrak
-\renewcommand{\abstractname}{Abstrak}
-% change References to Referensi
-\renewcommand{\refname}{Referensi}
 
 \begin{abstract}
 Currently, GPS and GSM have been widely used for tracking systems in case of vehicle theft, but this will be in vain if not done immediately. It is almost impossible to find a vehicle that is far from the time and place of the incident. For this reason, a better detection mechanism is needed so that vehicle searches can be carried out as early as possible so that they are not tracked by vehicles because they are very far from the location and time of the incident. In this project, we propose a Vehicle Tracking System to find vehicle coordinates. We implement vehicle movement detection and vehicle engine monitoring, which indicates an act of theft. Data and telemetry are sent over the Internet via cellular networks, while location detection relies on a GPS module with an external Antenna. Data is sent via the MQTT Protocol via Google Cloud IoT Core, which will be sent to the Firestore Database available from Google Firebase. The data can be monitored by the vehicle owner via a Progressive Web App-based User Interface, also built on top of Firebase, which will be able to control device mode, display the real-time location of the vehicle via Google Maps, and a collection of historical data on vehicle movements. The system will alert the user via notification when an act of theft is detected.
 \end{abstract}
 
 \begin{IEEEkeywords}
-Internet of Things, Vehicle Tracking System, Theft Detection, Google Cloud IoT Core, Firebase.
+    systolic array 
 \end{IEEEkeywords}
 
 \section{Pendahuluan}
